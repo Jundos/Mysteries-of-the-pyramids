@@ -5,7 +5,7 @@
 #include "view.h"
 
 using namespace sf;
-
+enum { left, right, climbUp, climbDown, climbLeft, climbRight, fall, stay, digLeft, digRight, die, win } buffState;
 Player::Player(Image &image, float X, float Y, int W, int H, String Name) :Entity(image, X, Y, W, H, Name)
 {
 	PlayerScore = 0; state = stay;
@@ -15,183 +15,127 @@ Player::Player(Image &image, float X, float Y, int W, int H, String Name) :Entit
 	}
 }
 
-void Player::control()
-	{																	// � � � � � � � � �
-		int X = (rect.left / 32); // j * 32
-		int Y = (rect.height / 32); // i * 32
-		if (Keyboard::isKeyPressed) {
-			if (onGround) {
-				if ((Keyboard::isKeyPressed(Keyboard::Right) == false) && ((Keyboard::isKeyPressed(Keyboard::Left) == false)) && (Keyboard::isKeyPressed(Keyboard::Down) == false) && (Keyboard::isKeyPressed(Keyboard::Up) == false)) {
+void Player::control() {																	// К Е Р У В А Н Н Я
+	int X = (rect.left / 32); // j * 32
+	int Y = (rect.height / 32); // i * 32
+	if (Keyboard::isKeyPressed) {
+		if (onGround) {
+			if ((Keyboard::isKeyPressed(Keyboard::Right) == false) && ((Keyboard::isKeyPressed(Keyboard::Left) == false)) && (Keyboard::isKeyPressed(Keyboard::Down) == false) && (Keyboard::isKeyPressed(Keyboard::Up) == false)) {
 
-					speed = 0; state = stay; onGround = false;
+				speed = 0; state = stay; onGround = false;
 
+			}
+			else
+			{
+				if ((Keyboard::isKeyPressed(Keyboard::Left))) {
+					if (onTube) { state = climbLeft; }
+					else { state = left; }
+					speed = 0.1; onGround = false;
 				}
-				else
-				{
-					if ((Keyboard::isKeyPressed(Keyboard::Left))) {
-						if (onTube) { state = climbLeft; }
-						else { state = left; }
-						speed = 0.1; onGround = false;
-					}
 
-					if (Keyboard::isKeyPressed(Keyboard::Right)) {
-						if (onTube) { state = climbRight; }
-						else { state = right; }
-						speed = 0.1; onGround = false;
-					}
+				if (Keyboard::isKeyPressed(Keyboard::Right)) {
+					if (onTube) { state = climbRight; }
+					else { state = right; }
+					speed = 0.1; onGround = false;
+				}
 
-					if (Keyboard::isKeyPressed(Keyboard::Up) && (onStairs)) {
-						state = climbUp; speed = 0.1;
-					}
+				if (Keyboard::isKeyPressed(Keyboard::Up) && (onStairs)) {
+					state = climbUp; speed = 0.1;
+				}
 
-					if (Keyboard::isKeyPressed(Keyboard::Down) && ((onStairs) || (onTube))) {
-						state = climbDown; speed = 0.1;
-					}
+				if (Keyboard::isKeyPressed(Keyboard::Down) && ((onStairs) || (onTube))) {
+					state = climbDown; speed = 0.1;
 				}
 			}
-			else { state = fall; speed = 0.1; }
 		}
-	}
-
-void Player::animation(float time) {														// � � � � � � � �
-	if (state == left) { // ��� �����
-		CurrentFrame += 0.01*time;
-		if (CurrentFrame > 4) CurrentFrame -= 4;
-		sprite.setTextureRect(IntRect(16 * int(CurrentFrame), 0, w, h));
-	}
-
-	if (state == right) { // ��� ������
-		CurrentFrame += 0.01*time;
-		if (CurrentFrame > 4) CurrentFrame -= 4;
-		sprite.setTextureRect(IntRect((16 * int(CurrentFrame)) + 16, 0, -w, h));
-	}
-
-	if (state == climbUp) { // ���� �����
-		CurrentFrame += 0.01*time;
-		if (CurrentFrame > 4) CurrentFrame -= 4;
-		sprite.setTextureRect(IntRect(16 * int(CurrentFrame), 16, w, h));
-	}
-
-	if (state == climbDown) { // ���� ����
-		CurrentFrame += 0.01*time;
-		if (CurrentFrame > 4) CurrentFrame -= 4;
-		sprite.setTextureRect(IntRect(16 * int(CurrentFrame) + 16, 16, -w, h));
-	}
-
-	if (state == climbLeft) { // ���� �����
-		CurrentFrame += 0.01*time;
-		if (CurrentFrame > 4) CurrentFrame -= 4;
-		sprite.setTextureRect(IntRect((16 * int(CurrentFrame)) + 64, 16, w, h));
-	}
-
-	if (state == climbRight) { // ���� ������
-		CurrentFrame += 0.01*time;
-		if (CurrentFrame > 4) CurrentFrame -= 4;
-		sprite.setTextureRect(IntRect((16 * int(CurrentFrame)) + 80, 16, -w, h));
-	}
-
-	if (state == stay) { // ������ �� �����
-		CurrentFrame += 0.001*time;
-		if (CurrentFrame > 2) CurrentFrame -= 2;
-		sprite.setTextureRect(IntRect(16 * int(CurrentFrame) + 32, 32, w, h));
-	}
-
-	if (state == fall) { // �����
-		CurrentFrame += 0.01*time;
-		if (CurrentFrame > 4) CurrentFrame -= 4;
-		sprite.setTextureRect(IntRect(16 * int(CurrentFrame) + 64, 0, w, h));
-	}
-
-	if (state == digLeft) { // ��� (���) �����
-		CurrentFrame += 0.01*time;
-		if (CurrentFrame > 2) CurrentFrame -= 2;
-		sprite.setTextureRect(IntRect(16 * int(CurrentFrame) + 16, 32, w, h));
-	}
-	else
-		if (state == digRight) { // ��� (���) ������
-			CurrentFrame += 0.01*time;
-			if (CurrentFrame > 2) CurrentFrame -= 2;
-			sprite.setTextureRect(IntRect(16 * int(CurrentFrame) + 32, 32, -w, h));
-		}
-
-	if (state == win) {
-		CurrentFrame += 0.01*time;
-		if (CurrentFrame > 4) CurrentFrame -= 4;
-		sprite.setTextureRect(IntRect(16 * int(CurrentFrame) + 128, 16, w, h));
-	}
-
-	if (state == die) {
-		CurrentFrame += 0.01*time;
-		if (CurrentFrame > 8) CurrentFrame -= 8;
-		sprite.setTextureRect(IntRect(16 * int(CurrentFrame) + 64, 32, w, h));
+		else { state = fall; speed = 0.1; }
 	}
 }
 
-void Player::checkCollisionWithMap(float Dx, float Dy)
+void Player::animation(float time) {														// А Н І М А Ц І Я
+	if (state != stay) CurrentFrame += 0.01*time; else CurrentFrame += 0.001*time;
+	switch (state)
+	{
+	case left: {if (CurrentFrame > 4) CurrentFrame -= 4; sprite.setTextureRect(IntRect(16 * int(CurrentFrame), 0, w, h)); } break;
+	case right: {if (CurrentFrame > 4) CurrentFrame -= 4; sprite.setTextureRect(IntRect((16 * int(CurrentFrame)) + 16, 0, -w, h)); } break;
+	case climbUp: {if (CurrentFrame > 4) CurrentFrame -= 4;	sprite.setTextureRect(IntRect(16 * int(CurrentFrame), 16, w, h)); } break;
+	case climbDown: {if (CurrentFrame > 4) CurrentFrame -= 4; sprite.setTextureRect(IntRect(16 * int(CurrentFrame) + 16, 16, -w, h)); } break;
+	case climbLeft: {if (CurrentFrame > 4) CurrentFrame -= 4; sprite.setTextureRect(IntRect((16 * int(CurrentFrame)) + 64, 16, w, h)); } break;
+	case climbRight: {if (CurrentFrame > 4) CurrentFrame -= 4; sprite.setTextureRect(IntRect((16 * int(CurrentFrame)) + 80, 16, -w, h)); } break;
+	case stay: {if (CurrentFrame > 2) CurrentFrame -= 2; sprite.setTextureRect(IntRect(16 * int(CurrentFrame) + 32, 32, w, h)); } break;
+	case fall: {if (CurrentFrame > 4) CurrentFrame -= 4; sprite.setTextureRect(IntRect(16 * int(CurrentFrame) + 64, 0, w, h)); } break;
+	case digLeft: {if (CurrentFrame > 2) CurrentFrame -= 2;	sprite.setTextureRect(IntRect(16 * int(CurrentFrame) + 16, 32, w, h)); } break;
+	case digRight: {if (CurrentFrame > 2) CurrentFrame -= 2; sprite.setTextureRect(IntRect(16 * int(CurrentFrame) + 32, 32, -w, h)); } break;
+	case win: {if (CurrentFrame > 4) CurrentFrame -= 4; sprite.setTextureRect(IntRect(16 * int(CurrentFrame) + 128, 16, w, h)); } break;
+	case die: {if (CurrentFrame > 8) CurrentFrame -= 8;	sprite.setTextureRect(IntRect(16 * int(CurrentFrame) + 64, 32, w, h)); } break;
+	}
+}
+
+void Player::checkCollisionWithMap(float Dx, float Dy)//										З І Т К Н Е Н Н Я
 {
-	for (int t = rect.top / 32; t < (rect.top + rect.height) / 32; t++)	//	�������� ������������
+	for (int t = rect.top / 32; t < (rect.top + rect.height) / 32; t++)	//	первинно обробляється
 		for (int l = rect.left / 32; l < (rect.left + rect.width) / 32; l++) {
-			if ((TileMap[t][l] == '0') || (TileMap[t][l] == 'b')) {//���� ������
+			if ((TileMap[t][l] == '0') || (TileMap[t][l] == 'b')) {//якшо зверху
 				if (Dy < 0) { rect.top = t * 32 + 32; dy = 0; }
 				if (Dy > 0) { rect.top = t * 32 - 32; dy = 0;  onGround = true; }
 			}
 
-			if ((TileMap[t + 1][l] == '0') || (TileMap[t + 1][l] == 'b')) {//���� �����
+			if ((TileMap[t + 1][l] == '0') || (TileMap[t + 1][l] == 'b')) {//якщо знизу
 				if (Dy > 0) { rect.top = t * 32; dy = 0;  onGround = true; }
 			}
-			if ((TileMap[t][l] == '0') || (TileMap[t][l] == 'b')) {//���� �����
+			if ((TileMap[t][l] == '0') || (TileMap[t][l] == 'b')) {//якщо зліва
 				if (Dx < 0) { rect.left = l * 32 + 32; dx = 0; }
 			}
-			if ((TileMap[t][l + 1] == '0') || (TileMap[t][l + 1] == 'b')) {//���� ������
+			if ((TileMap[t][l + 1] == '0') || (TileMap[t][l + 1] == 'b')) {//якщо зправа
 				if (Dx > 0) { rect.left = l * 32; dx = 0; }
 			}
 
 		}
 	//      - - -     - - -     - - -     - - -     - - -     - - -     - - -     - - -
 	int i, j;
-	for (float Y = (rect.top + 8) / 32; Y < (rect.top + rect.height + 8) / 32; Y++)		//	�������� ������������
+	for (float Y = (rect.top + 8) / 32; Y < (rect.top + rect.height + 8) / 32; Y++)		//	вторинно обробляється
 		for (float X = (rect.left + 8) / 32; X < (rect.left + rect.width + 8) / 32; X++)
 		{
 			i = Y + 0.2;
 			j = X + 0.2;
 
-			if (TileMap[i][j] == ' ') { // ���� �� � ��� �� ����������...
-				if ((TileMap[i + 1][j] == 'b') || (TileMap[i + 1][j] == '0')) { //��������� �� ����� � �����
+			if (TileMap[i][j] == ' ') { // коли ні з чим не стикається...
+				if ((TileMap[i + 1][j] == 'b') || (TileMap[i + 1][j] == '0')) { //перевірка чи внизу є земля
 					onGround = true;
 					rect.top = i * 32;
 				}
 				else
-					if (TileMap[i + 1][j] == ' ') { //��������� �� ����� � "�������"
+					if (TileMap[i + 1][j] == ' ') { //перевірка чи внизу є "повітря"
 						onGround = false;
 						rect.left = j * 32;
 					}
-				if (TileMap[i + 1][j] == 's') { //��������� �� � ��� ������ �������
+				if (TileMap[i + 1][j] == 's') { //перевірка чи є під ногами драбина
 					onStairs = true;
 					onGround = false;
 					if (Keyboard::isKeyPressed(Keyboard::Down)) { onGround = true; rect.left = j * 32; dy += 0.5; }
 					if (!onGround) { rect.top = i * 32; onGround = true; }
 				}
-				if (TileMap[i + 1][j] == 't') { //��������� �� � ��� ������ �����
+				if (TileMap[i + 1][j] == 't') { //перевірка чи є під ногами труба
 					if (!onGround) { rect.top = i * 32 + 32; }
 				}
 			}
 
 			if (TileMap[i][j - 1] != 's')
-				if (TileMap[i + 1][j - 1] == 'b') { //��������� �� ����� ������ �����
+				if (TileMap[i + 1][j - 1] == 'b') { //перевірка чи можна копати зліва
 					if (Keyboard::isKeyPressed(Keyboard::Z)) {
 						rect.left = j * 32;
 						TileMap[i + 1][j - 1] = ' ';
 					}
 				}
 			if (TileMap[i][j + 1] != 's')
-				if (TileMap[i + 1][j + 1] == 'b') { //��������� �� ����� ������ ������
+				if (TileMap[i + 1][j + 1] == 'b') { //перевірка чи можна копати зправа
 					if (Keyboard::isKeyPressed(Keyboard::X)) {
 						rect.left = j * 32;
 						TileMap[i + 1][j + 1] = ' ';
 					}
 				}
 
-			if (TileMap[i][j] == 's') { // ��������� � ��������
+			if (TileMap[i][j] == 's') { // зіткнення з драбиною
 				onStairs = true;
 				onGround = true;
 				if ((Keyboard::isKeyPressed(Keyboard::Up)) || (Keyboard::isKeyPressed(Keyboard::Down)))
@@ -200,7 +144,7 @@ void Player::checkCollisionWithMap(float Dx, float Dy)
 			}
 			else { onStairs = false; }
 
-			if (TileMap[i][j] == 't') { // ��������� � ������
+			if (TileMap[i][j] == 't') { // зіткнення з трубою
 				onTube = true;
 				if (state == climbDown) { dy = 0.5; }
 				else
@@ -208,12 +152,12 @@ void Player::checkCollisionWithMap(float Dx, float Dy)
 			}
 			else { onTube = false; }
 
-			if (TileMap[i][j] == 'g') { // ��������� � �������
+			if (TileMap[i][j] == 'g') { // зіткнення з золотом
 				TileMap[i][j] = ' ';
 				PlayerGold++;
 			}
 
-			if (TileMap[i][j] == 'd') {
+			if (TileMap[i][j] == 'd') { // зіткнення з дверима
 				state = win;
 				dy = 0; dx = 0;
 				onGround = true;
@@ -223,20 +167,20 @@ void Player::checkCollisionWithMap(float Dx, float Dy)
 		}
 }
 
-void Player::update(float time)												// � � � � � � � � �
+void Player::update(float time)												// О Н О В Л Е Н Н Я
 {
 	control();
 	animation(time);
 	switch (state)
 	{
-	case right:dx = speed; break;		//������
-	case left:dx = -speed; break;		//�����
-	case climbUp: dy = -speed; break;	//����� �����
-	case climbDown: dy = speed; break;	//����� ����
-	case climbRight: dx = speed; break;	//����� �����
-	case climbLeft: dx = -speed; break;	//����� ������
-	case fall: dy = speed; dx = 0; break;//������
-	case stay: dy = 0; dx = 0; break;	//������
+	case right:dx = speed; break;		//вправо
+	case left:dx = -speed; break;		//влево
+	case climbUp: dy = -speed; break;	//лізти вверх
+	case climbDown: dy = speed; break;	//лізти вниз
+	case climbRight: dx = speed; break;	//лізти вліво
+	case climbLeft: dx = -speed; break;	//лізти вправо
+	case fall: dy = speed; dx = 0; break;//падати
+	case stay: dy = 0; dx = 0; break;	//стояти
 	}
 	rect.left += dx*time;
 	checkCollisionWithMap(dx, 0);

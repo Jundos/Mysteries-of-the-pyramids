@@ -1,2 +1,30 @@
-﻿  main.cpp
-c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\main.cpp(1): fatal error C1083: Не удается открыть файл включение: SFML/Graphics.hpp: No such file or directory
+﻿  Player.cpp
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(14): warning C4305: аргумент: усечение из "double" к "float"
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(19): warning C4244: инициализация: преобразование "float" в "int", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(20): warning C4244: инициализация: преобразование "float" в "int", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(21): warning C4551: в вызове функции отсутствует список аргументов
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(33): warning C4305: =: усечение из "double" к "float"
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(39): warning C4305: =: усечение из "double" к "float"
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(43): warning C4305: =: усечение из "double" к "float"
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(47): warning C4305: =: усечение из "double" к "float"
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(51): warning C4305: =: усечение из "double" к "float"
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(56): warning C4244: +=: преобразование "double" в "float", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(147): warning C4244: инициализация: преобразование "float" в "int", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(148): warning C4244: инициализация: преобразование "float" в "int", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(150): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(151): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(155): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(158): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(161): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(170): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(171): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(176): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(181): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(186): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(187): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(190): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(197): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(204): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(213): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+c:\users\jundos\documents\github\mysteries-of-the-pyramids\таємниці_піраміди\player.cpp(222): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+  Таємниці_піраміди.vcxproj -> C:\Users\Jundos\Documents\GitHub\Mysteries-of-the-pyramids\Debug\Таємниці_піраміди.exe
