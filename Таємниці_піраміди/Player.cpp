@@ -5,7 +5,9 @@
 #include "view.h"
 
 using namespace sf;
-enum { left, right, climbUp, climbDown, climbLeft, climbRight, fall, stay, digLeft, digRight, die, win } buffState;
+bool stark = false;
+int buffState;
+float CurrentFrame = 0;
 Player::Player(Image &image, float X, float Y, int W, int H, String Name) :Entity(image, X, Y, W, H, Name)
 {
 	PlayerScore = 0; state = stay;
@@ -21,30 +23,29 @@ void Player::control() {																	// К Е Р У В А Н Н Я
 	if (Keyboard::isKeyPressed) {
 		if (onGround) {
 			if ((Keyboard::isKeyPressed(Keyboard::Right) == false) && ((Keyboard::isKeyPressed(Keyboard::Left) == false)) && (Keyboard::isKeyPressed(Keyboard::Down) == false) && (Keyboard::isKeyPressed(Keyboard::Up) == false)) {
-
-				speed = 0; state = stay; onGround = false;
-
+				speed = 0; onGround = false; 
+				if ((onTube) || (onStairs)) { stark = true; state == buffState; } else { stark = false; state = stay; }
 			}
 			else
 			{
 				if ((Keyboard::isKeyPressed(Keyboard::Left))) {
-					if (onTube) { state = climbLeft; }
-					else { state = left; }
-					speed = 0.1; onGround = false;
+					if (onTube) { state = climbLeft; buffState = climbLeft; }
+					else { state = left;}
+					speed = 0.1; onGround = false; stark = false;
 				}
 
 				if (Keyboard::isKeyPressed(Keyboard::Right)) {
-					if (onTube) { state = climbRight; }
+					if (onTube) { state = climbRight; buffState = climbRight; }
 					else { state = right; }
-					speed = 0.1; onGround = false;
+					speed = 0.1; onGround = false; stark = false;
 				}
 
 				if (Keyboard::isKeyPressed(Keyboard::Up) && (onStairs)) {
-					state = climbUp; speed = 0.1;
+					state = climbUp; speed = 0.1; buffState = climbUp; stark = false;
 				}
 
 				if (Keyboard::isKeyPressed(Keyboard::Down) && ((onStairs) || (onTube))) {
-					state = climbDown; speed = 0.1;
+					state = climbDown; speed = 0.1; buffState = climbDown; stark = false;
 				}
 			}
 		}
@@ -53,7 +54,7 @@ void Player::control() {																	// К Е Р У В А Н Н Я
 }
 
 void Player::animation(float time) {														// А Н І М А Ц І Я
-	if (state != stay) CurrentFrame += 0.01*time; else CurrentFrame += 0.001*time;
+	if (!stark) { if (state != stay) CurrentFrame += 0.01*time; else CurrentFrame += 0.001*time; }
 	switch (state)
 	{
 	case left: {if (CurrentFrame > 4) CurrentFrame -= 4; sprite.setTextureRect(IntRect(16 * int(CurrentFrame), 0, w, h)); } break;

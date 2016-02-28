@@ -12,7 +12,6 @@ class Player :
 public:
 	enum { left, right, climbUp, climbDown, climbLeft, climbRight, fall, stay, digLeft, digRight, die, win } state;
 	int PlayerScore, PlayerGold = 0;
-	float CurrentFrame = 0;
 	bool DigLeft = false, DigRight = false, Win = false;
 
 	Player(Image &image, float X, float Y, int W, int H, String Name);
