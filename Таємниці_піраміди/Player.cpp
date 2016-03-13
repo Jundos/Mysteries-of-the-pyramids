@@ -5,9 +5,7 @@
 #include "view.h"
 
 using namespace sf;
-bool stark = false;
-int buffState;
-float CurrentFrame = 0;
+
 Player::Player(Image &image, float X, float Y, int W, int H, String Name) :Entity(image, X, Y, W, H, Name)
 {
 	PlayerScore = 0; state = stay;

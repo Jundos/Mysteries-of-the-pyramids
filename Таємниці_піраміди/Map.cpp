@@ -109,9 +109,9 @@ void loadMap(RenderWindow &_window, float time) {
 	Sprite map_sprite;
 	map_sprite.setTexture(map_texture);
 	map_sprite.scale(2, 2); //збільшення кадру "мапи" в 2 рази!!!!!!
-							///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-							//vvvvvvvvvvvvv- Виводимо карту на екран -vvvvvvvvvvvvvvvv
+	//vvvvvvvvvvvvv- Виводимо карту на екран -vvvvvvvvvvvvvvvv
 	for (int i = 0; i < HEIGHT_MAP; i++)
 		for (int j = 0; j < WIDTH_MAP; j++) {
 			if (TileMap[i][j] == ' ') continue;

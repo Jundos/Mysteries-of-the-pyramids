@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Entity.h"
 #include "Player.h"
+#include "Enemy.h"
 
 const int Width_window = 640;
 const int Height_window = 480;
@@ -55,6 +56,7 @@ bool StartGame(RenderWindow &window, int &numberLevel) {
 		heroImage.createMaskFromColor(Color(255, 0, 0));
 
 		Player p(heroImage, 64, 500, 16, 16, "Player1");
+		Enemy e(heroImage, 240, 530, 16, 16, "Enemy1");
 
 		Clock clock;
 		Clock GameTimeClock;
@@ -77,7 +79,7 @@ bool StartGame(RenderWindow &window, int &numberLevel) {
 		while (window.isOpen())
 		{
 			timeStart = TimeStart.getElapsedTime().asSeconds();
-			if (timeStart < 6) {
+			if (timeStart < 1) {
 				p.onGround = true;
 				changeLevel(numberLevel);
 				window.clear(Color::Black);
@@ -108,6 +110,7 @@ bool StartGame(RenderWindow &window, int &numberLevel) {
 				if (Keyboard::isKeyPressed(Keyboard::Escape)) { window.close(); return false; }//если эскейп, то выходим из игры
 
 				p.update(time);
+				e.update(time);
 				window.setView(view);
 				window.clear(Color::White);
 
@@ -117,11 +120,12 @@ bool StartGame(RenderWindow &window, int &numberLevel) {
 				//vvvvvvvvvvvv- Виводимо текст на екран -vvvvvvvvvvvvvvvvv
 				ostringstream PlayerGoldString, FullGoldString, GameTimeString;
 				PlayerGoldString << p.PlayerGold; FullGoldString << FullGold; GameTimeString << GameTime;
-				text.setString("Зiбрано золота: " + PlayerGoldString.str() + " iз " + FullGoldString.str() + "\tЧас: " + GameTimeString.str());
+				text.setString("Full gold: " + PlayerGoldString.str() + " of " + FullGoldString.str() + "\tTime: " + GameTimeString.str());
 				text.setPosition(view.getCenter().x - 280, view.getCenter().y - 220);
 				///^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 				window.draw(p.sprite);
+				window.draw(e.sprite);
 				window.draw(text);
 				window.display();
 			}
