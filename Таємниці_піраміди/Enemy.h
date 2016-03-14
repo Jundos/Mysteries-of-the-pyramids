@@ -12,10 +12,10 @@ class Enemy :
 {
 public:
 	Enemy(Image &image, float X, float Y, int W, int H, String Name);
-	//void control();
+	void hunt(FloatRect rectPlayer);
 	void animation(float time);
-	void checkCollisionWithMap(float Dx, float Dy);
-	void update(float time);
+	void checkCollisionWithMap(float Dx, float Dy, FloatRect rectPlayer);
+	void update(float time, FloatRect &rectPlayer);
 private:
 	float CurrentFrame = 0;
 	bool stark = false;

@@ -17,6 +17,7 @@ public:
 	void animation(float time);
 	void checkCollisionWithMap(float Dx, float Dy);
 	void update(float time);
+	FloatRect GetRect() { return rect; }
 private:
 	bool stark = false;
 	int buffState;

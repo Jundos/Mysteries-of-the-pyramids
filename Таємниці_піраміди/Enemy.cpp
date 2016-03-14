@@ -27,13 +27,13 @@ void Enemy::animation(float time) {
 	case climbLeft: {if (CurrentFrame > 4) CurrentFrame -= 4; sprite.setTextureRect(IntRect((16 * int(CurrentFrame)) + 64, 64, w, h)); } break;
 	case climbRight: {if (CurrentFrame > 4) CurrentFrame -= 4; sprite.setTextureRect(IntRect((16 * int(CurrentFrame)) + 80, 64, -w, h)); } break;
 	case stay: { sprite.setTextureRect(IntRect(64, 64, w, h)); } break;
-	case fall: {if (CurrentFrame > 4) CurrentFrame -= 4; sprite.setTextureRect(IntRect(16 * int(CurrentFrame) + 64, 64, w, h)); } break;
+	case fall: {if (CurrentFrame > 4) CurrentFrame -= 4; sprite.setTextureRect(IntRect(16 * int(CurrentFrame) + 64, 48, w, h)); } break;
 	case start: {if (CurrentFrame > 4) CurrentFrame -= 4; sprite.setTextureRect(IntRect(16 * int(CurrentFrame) + 128, 64, w, h)); } break;
 	case die: {if (CurrentFrame > 8) CurrentFrame -= 8;	sprite.setTextureRect(IntRect(16 * int(CurrentFrame) + 192, 64, -w, h)); } break;
 	}
 }
 
-void Enemy::checkCollisionWithMap(float Dx, float Dy)//										З І Т К Н Е Н Н Я
+void Enemy::checkCollisionWithMap(float Dx, float Dy, FloatRect rectPlayer)//										З І Т К Н Е Н Н Я
 {
 	for (int t = rect.top / 32; t < (rect.top + rect.height) / 32; t++)	//	первинно обробляється
 		for (int l = rect.left / 32; l < (rect.left + rect.width) / 32; l++) {
@@ -74,7 +74,7 @@ void Enemy::checkCollisionWithMap(float Dx, float Dy)//										З І Т К Н Е Н Н
 				if (TileMap[i + 1][j] == 's') { //перевірка чи є під ногами драбина
 					onStairs = true;
 					onGround = false;
-					if (Keyboard::isKeyPressed(Keyboard::Down)) { onGround = true; rect.left = j * 32; dy += 0.5; }
+					if (rectPlayer.top > rect.top) { onGround = true; rect.left = j * 32; dy += 0.5; }
 					if (!onGround) { rect.top = i * 32; onGround = true; }
 				}
 				if (TileMap[i + 1][j] == 't') { //перевірка чи є під ногами труба
@@ -85,8 +85,11 @@ void Enemy::checkCollisionWithMap(float Dx, float Dy)//										З І Т К Н Е Н Н
 			if (TileMap[i][j] == 's') { // зіткнення з драбиною
 				onStairs = true;
 				onGround = true;
-				if ((Keyboard::isKeyPressed(Keyboard::Up)) || (Keyboard::isKeyPressed(Keyboard::Down)))
+				if (rectPlayer.top != rect.top)
 					rect.left = j * 32;
+				else
+					if (rectPlayer.left != rect.left)
+						rect.top = i * 32;
 
 			}
 			else { onStairs = false; }
@@ -101,7 +104,32 @@ void Enemy::checkCollisionWithMap(float Dx, float Dy)//										З І Т К Н Е Н Н
 		}
 }
 
-void Enemy::update(float time) {
+void Enemy::hunt(FloatRect rectPlayer) {
+	if (onGround) {
+		if (rectPlayer.left < rect.left) {
+			if (onTube) { state = climbLeft; }	
+			else { state = left; }
+			speed = 0.1; onGround = false;
+		}
+		if (rectPlayer.left > rect.left) {
+			if (onTube) { state = climbRight; }
+			else { state = right; }
+			speed = 0.1; onGround = false;
+		}
+		if ((rectPlayer.top < rect.top) && (onStairs)) {
+			state = climbUp; speed = 0.1;
+		}
+		
+		if ((rectPlayer.top > rect.top) && ((onStairs) || (onTube))) {
+			state = climbDown; speed = 0.1;
+		}
+	}
+	else { state = fall; speed = 0.1; }
+
+}
+
+void Enemy::update(float time, FloatRect &rectPlayer) {
+	hunt(rectPlayer);
 	animation(time);
 	switch (state)
 	{
@@ -115,9 +143,9 @@ void Enemy::update(float time) {
 	case stay: dy = 0; dx = 0; break;	//стояти
 	}
 	rect.left += dx*time;
-	checkCollisionWithMap(dx, 0);
+	checkCollisionWithMap(dx, 0, rectPlayer);
 	rect.top += dy*time;
-	checkCollisionWithMap(0, dy);
+	checkCollisionWithMap(0, dy, rectPlayer);
 	sprite.setPosition(rect.left, rect.top);
 	dy = 0; dx = 0;
 	speed = 0;

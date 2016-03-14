@@ -129,7 +129,7 @@ void loadMap(RenderWindow &_window, float time) {
 			}
 			if (TileMap[i][j] == 't') map_sprite.setTextureRect(IntRect(48, 0, 16, 16));
 			if (TileMap[i][j] == 'd') map_sprite.setTextureRect(IntRect(80, 0, 16, 32));
-
+			if (TileMap[i][j] == 'p') continue;
 			map_sprite.setPosition(j * 32, i * 32); //розкидуємо кадри мапи по екрану
 			_window.draw(map_sprite);
 		}

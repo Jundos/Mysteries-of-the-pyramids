@@ -56,7 +56,7 @@ bool StartGame(RenderWindow &window, int &numberLevel) {
 		heroImage.createMaskFromColor(Color(255, 0, 0));
 
 		Player p(heroImage, 64, 500, 16, 16, "Player1");
-		Enemy e(heroImage, 240, 530, 16, 16, "Enemy1");
+		Enemy e(heroImage, 60, 400, 16, 16, "Enemy1");
 
 		Clock clock;
 		Clock GameTimeClock;
@@ -110,7 +110,7 @@ bool StartGame(RenderWindow &window, int &numberLevel) {
 				if (Keyboard::isKeyPressed(Keyboard::Escape)) { window.close(); return false; }//если эскейп, то выходим из игры
 
 				p.update(time);
-				e.update(time);
+				e.update(time,p.rect);
 				window.setView(view);
 				window.clear(Color::White);
 

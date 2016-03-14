@@ -15,9 +15,7 @@ Player::Player(Image &image, float X, float Y, int W, int H, String Name) :Entit
 	}
 }
 
-void Player::control() {																	// К Е Р У В А Н Н Я
-	int X = (rect.left / 32); // j * 32
-	int Y = (rect.height / 32); // i * 32
+void Player::control() {
 	if (Keyboard::isKeyPressed) {
 		if (onGround) {
 			if ((Keyboard::isKeyPressed(Keyboard::Right) == false) && ((Keyboard::isKeyPressed(Keyboard::Left) == false)) && (Keyboard::isKeyPressed(Keyboard::Down) == false) && (Keyboard::isKeyPressed(Keyboard::Up) == false)) {
@@ -51,7 +49,7 @@ void Player::control() {																	// К Е Р У В А Н Н Я
 	}
 }
 
-void Player::animation(float time) {														// А Н І М А Ц І Я
+void Player::animation(float time) {
 	if (!stark) { if (state != stay) CurrentFrame += 0.01*time; else CurrentFrame += 0.001*time; }
 	switch (state)
 	{
@@ -70,7 +68,7 @@ void Player::animation(float time) {														// А Н І М А Ц І Я
 	}
 }
 
-void Player::checkCollisionWithMap(float Dx, float Dy)//										З І Т К Н Е Н Н Я
+void Player::checkCollisionWithMap(float Dx, float Dy)
 {
 	for (int t = rect.top / 32; t < (rect.top + rect.height) / 32; t++)	//	первинно обробляється
 		for (int l = rect.left / 32; l < (rect.left + rect.width) / 32; l++) {
@@ -166,7 +164,7 @@ void Player::checkCollisionWithMap(float Dx, float Dy)//										З І Т К Н
 		}
 }
 
-void Player::update(float time)												// О Н О В Л Е Н Н Я
+void Player::update(float time)
 {
 	control();
 	animation(time);
